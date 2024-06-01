@@ -21,8 +21,26 @@ def chicken():
     press('e')
     pressServeCook()
 
-def salad(name):
-    keys = ['r','c','b']
+def salad(ticket):
+    keys = []
+    ingredientMap = {
+        'Ranch' : 'r',
+        'Cheese' : 'c',
+        'Thousand' : 't',
+        'Vin' : 'v',
+        'Bacon' : 'b',
+        'Onions' : 'o',
+        'Mushrooms' : 'm',
+        'Greens' : 'g'
+    }
+    everythingList = ['b', 'o', 'm', 'g']
+
+    if ('everything' in ticket):
+        keys.extend(everythingList)
+    for ingredient in list(ingredientMap):
+        if (ingredient in ticket):
+            keys.append(ingredientMap[ingredient])
+    
     for key in keys:
         press(key)
     pressServeCook()
@@ -35,9 +53,4 @@ def wine(wineName):
     for x in range(27):
         press('w')
     pressServeCook()
- 
-if __name__ == "__main__":
-    time.sleep(3)
-    salad('house')
-
 
