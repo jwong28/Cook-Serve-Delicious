@@ -21,6 +21,12 @@ def chicken():
     press('e')
     pressServeCook()
 
+def salad(name):
+    keys = ['r','c','b']
+    for key in keys:
+        press(key)
+    pressServeCook()
+
 def wine(wineName):
     wineList = ['cheap']
     index = wineList.index(wineName)
@@ -32,5 +38,6 @@ def wine(wineName):
  
 if __name__ == "__main__":
     time.sleep(3)
-    chicken()
+    salad('house')
+
 
