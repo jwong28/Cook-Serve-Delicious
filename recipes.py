@@ -14,6 +14,30 @@ def press(key):
 def pressServeCook():
     press(Key.space)
 
+def sopapillas(ticket):
+    keyboard.press('q')
+    time.sleep(3.25)
+    keyboard.release('q')
+    time.sleep(.05)
+    press('w')
+    if ('lite' not in ticket):
+        press('a')
+    pressServeCook()
+
+def corndog(ticket):
+    if ('ketchup' in ticket or 'and' in ticket):
+        press('k')
+    if ('mustard' in ticket):
+        press('m')
+    pressServeCook()
+
+def pretzel(ticket):
+    if ('cinnamon' in ticket):
+        press('c')
+    if ('salt' in ticket or "“" in ticket):
+        press('s')
+    if ('butter' in ticket or "-" in ticket):
+        press('b')
 
 def chicken():
     for x in range(6):

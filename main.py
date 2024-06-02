@@ -13,29 +13,46 @@ import task_finder
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 active_order_nums = []
-cooking_oerder_nums = []
+cooking_order_nums = []
 
 def imageToText(img):
     # Convert to hsv
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    hsv = resize_img(hsv, 300)
+    # cv2.imshow("img", hsv)
+    # cv2.waitKey(0)
 
     # Get the binary mask
     msk = cv2.inRange(hsv, np.array([0, 0, 0]), np.array([179, 255, 154]))
 
     # Extract
     krn = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 3))
-    dlt = cv2.dilate(msk, krn, iterations=5)
+    dlt = cv2.dilate    (msk, krn, iterations=5)
     res = 255 - cv2.bitwise_and(dlt, msk)
 
     # OCR
     txt = pytesseract.image_to_string(res, config="--psm 6")
     print('hello ' + txt)
-    return txt
+    return txt.lower()
 
 def getTicketText():
     im = ImageGrab.grab(constants.TICKET_TEXT_BOX)
     img = np.array(im.convert('RGB'))
     return imageToText(img)
+
+def getTicketTitle():
+    im = ImageGrab.grab(constants.TICKET_TITLE_BOX)
+    img = np.array(im.convert('RGB'))
+    return imageToText(img)
+
+def resize_img(img, scale):
+
+    width = int(img.shape[1] * scale / 100)
+    height = int(img.shape[0] * scale / 100)
+
+    dsize = (width, height)
+    
+    return cv2.resize(img, dsize=dsize)
 
 def colorExist(img, colors):
     width, height = img.size
@@ -59,16 +76,20 @@ def findAction():
 if __name__ == '__main__': 
     time.sleep(2)
     print('hello start')
-    # im = ImageGrab.grab()
+    # print(getTicketText())
+    recipes.pretzel(getTicketText())
+    # recipes.pressServeCook()
+    # recipes.sopapillas('')
+    # im = ImageG   rab.grab()
     # im.save('temp1.png')
     # im = Image.open('temp1.png')
     # img = np.array(im.convert('RGB'))
     # print(img[408, 135])
     # pix = img.load
-    for i in range(constants.AVAILABLE_TICKETS):
-        img = ImageGrab.grab(constants.OUTLINE_BOX[i])
-        if (colorExist(img, constants.ORDER_COOKED_RGB)):
-            print(str(i) + 'ready')
+    # for i in range(constants.AVAILABLE_TICKETS):
+    #     img = ImageGrab.grab(constants.OUTLINE_BOX[i])
+    #     if (colorExist(img, constants.ORDER_COOKED_RGB)):
+    #         print(str(i) + 'ready')
     # temp = False
     # while (not temp):
     #     if (task_finder.locateTask('cooked_1', constants.COOK_NUM_BOX[0]) or
