@@ -18,7 +18,7 @@ def pressServeCook():
     press(Key.space)
 
 def logCooking(dish, orderNum, title, text, isPhase1 = False):
-    log = 'Order ' + str(orderNum) + '   ' + dish + '\n  ' \
+    log = 'Order ' + str(orderNum) + '   ' + dish + '  ' + str(isPhase1) + '\n  ' \
         + title + '\n  ' + text
     print(log)
 
@@ -693,6 +693,348 @@ def soup(orderNum, title, text):
 def soupChop(keys):
     return keys.extend(['q', 'q', 'q', 'q', 'q'])
 
+def attemptCoffee(orderNum, title, text):
+    if (COFFEE in title or COFFEE in text):
+        return coffee(orderNum, title, text)
+    return 0
+
+def coffee(orderNum, title, text):
+    logCooking(COFFEE, orderNum, title, text)
+    keys = []
+    sugars = 0
+    keys.append(Key.down)
+    if ('sug' in title):
+        sugars = handleCount(text)
+    elif ('loaded' in title):
+        keys.append('c')
+        sugars =  handleCount(text)
+    elif ('cream' in title):
+        keys.append('c')
+
+    for i in range(sugars):
+            keys.append('s')  
+
+    print(keys)
+    for key in keys:
+        press(key)
+    return 2
+
+def handleCount(text):
+    counts = 0
+    if ('2' in text):
+        counts = 2
+    elif ('3' in text):
+        counts = 3
+    elif ('4' in text):
+        counts = 4
+    elif ('5' in text):
+        counts = 5
+    elif ('1' in text or 'l' in text):
+        counts = 1
+    # print(text + ': ' + str(counts))
+    return counts
+
+def attemptHashBrown(orderNum, title, text):
+    if ('hash' in title):
+        return hashBrown(orderNum, title, text)
+    return 0
+    
+
+def hashBrown(orderNum, title, text):
+    logCooking(HASHBROWN, orderNum, title, text)
+    keyboard.press(Key.down)
+    time.sleep(2)
+    keyboard.release(Key.down)
+    time.sleep(.05)
+    press('p')
+    if ('lite' not in title):
+        press('s')
+    return 2
+
+def attemptBreakwich(orderNum, title, text):
+    if ('cheese' in getButtonText()):
+        return breakwich(orderNum, title, text)
+    return 0
+
+def breakwich(orderNum, title, text):
+    logCooking(BREAKWICH, orderNum, title, text)
+    keys = []
+
+    if ('everything' in text):
+        keys = ['e', 's', 'b', 'c', 'h']
+    else:
+        if ('egg' in text or '99' in text):
+            keys.append('e')
+        if ('sausage' in text):
+            keys.append('s')
+        if ('bacon' in text):
+            keys.append('b')
+        if ('cheese' in text):
+            keys.append('c')
+        if ('ham' in text):
+            keys.append('h')
+
+    print(keys)
+    for key in keys:
+        press(key)
+    return 1
+
+def attemptPancake(orderNum, title, text, isPhase1):
+    if ('pancake' in getButtonText() or not isPhase1):
+        return pancake(orderNum, title, text, isPhase1)
+    return 0
+
+def pancake(orderNum, title, text, isPhase1):
+    keys = []
+
+    logCooking(PANCAKE, orderNum, title, text, isPhase1)
+    if ('one' in text):
+        keys = ['p']
+    elif ('two' in text):
+        keys = ['p', 'p']
+    elif ('three' in text):
+        keys = ['p', 'p', 'p']
+    if (not isPhase1):
+        if ('maple' in text):
+            keys.append('m')
+        elif ('straw' in text):
+            keys.append('s')
+        elif ('blue' in text):
+            keys.append('l')
+        elif ('can' in text):
+            keys.append('e')
+        if ('but' in text and 'no' not in text):
+            keys.append('b')
+
+    print(keys)
+    for key in keys:
+        press(key)
+    return 1 if isPhase1 else 2
+
+def attemptSushi(orderNum, title, text):
+    if ('yellow' in getButtonText()):
+        return sushi(orderNum, title, text)
+    return 0
+
+def sushi(orderNum, title, text):
+    logCooking(SUSHI, orderNum, title, text)
+    keys = []
+    items = text.split(',')
+
+    for item in items:
+       count = handleCount(item)
+       for i in range(count):
+            if ('ebi' in item):
+               keys.append('e')
+            if ('roe' in item):
+               keys.append('r')
+            if ('oro' in item):
+               keys.append('o')
+            if ('tuna' in item):
+               keys.append('t')
+            if ('sal' in item):
+               keys.append('s')
+            if ('mack' in item):
+               keys.append('m')
+            if ('yell' in item):
+               keys.append('y')
+            if ('unag' in item):
+               keys.append('g')
+
+    print(keys)
+    for key in keys:
+        press(key)
+    return 2
+
+def attemptFriedRice(orderNum, title, text):
+    if ('rice' in title):
+        return friedRice(orderNum, title, text)
+    return 0
+
+def friedRice(orderNum, title, text):
+    logCooking(FRIED_RICE, orderNum, title, text)
+    keys = []
+
+    if ('fried' in text):
+        keys.append('f')
+    elif ('white' in text):
+        keys.append('w')
+    elif ('brown' in text):
+        keys.append('b')
+    if ('everything' in text):
+        keys.extend(['p', 'c', 'e', 'o', 'n', 'r', 's', 'm', 'k'])
+        if ('but' in text):
+            keys.remove('s')
+    else:
+        if ('peas' in text):
+            keys.append('p')
+        if ('car' in text):
+            keys.append('c')
+        if ('egg' in text or '99' in text):
+            keys.append('e')
+        if ('ion' in text):
+            keys.append('o')
+        if ('bab' in text):
+            keys.append('n')
+        if ('cco' in text):
+            keys.append('r')
+        if ('shrimp' in text):
+            keys.append('s')
+        if ('beef' in text):
+            keys.append('m')
+        if ('chicken' in text):
+            keys.append('k')
+
+    print(keys)
+    for key in keys:
+        press(key)
+    return 1
+
+def attemptLobster(orderNum, title, text, isPhase1):
+    if ('a com.' in getButtonText() or not isPhase1):
+        return lobster(orderNum, title, text, isPhase1)
+    return 0
+
+def lobster(orderNum, title, text, isPhase1):
+    keys = []
+
+    logCooking(LOBSTER, orderNum, title, text, isPhase1)
+    if (isPhase1):
+        keys.append('q')
+    else:
+        count = 1
+        if ('two' in text):
+            count = 2
+        if (not isPhase1):
+            if ('utt' in text):
+                keys.append('b')
+            if ('tai' in text):
+                keys.append('c')
+            if ('rli' in text):
+                keys.append('g')
+            if ('ing' in text):
+                keys.append('i')
+            if ('icy' in text):
+                keys.append('s')
+        if (count == 2):
+            keys.extend(keys)
+
+    print(keys)
+    for key in keys:
+        press(key)
+    return 1 if isPhase1 else 2
+
+def attemptBananas(orderNum, title, text):
+    if (BANANAS in title):
+        return bananas(orderNum, title, text)
+    return 0
+
+def bananas(orderNum, title, text):
+    logCooking(BANANAS, orderNum, title, text)
+    press('q')
+    press('w')
+    time.sleep(2)
+    press('e')
+    if ('flam' in title):
+        press('s')
+        press('d')
+    return 1  
+
+def attemptKabob(orderNum, title, text):
+    if ('kabo' in title):
+        return kabob(orderNum, title, text)
+    return 0
+
+def kabob(orderNum, title, text):
+    keys = []
+    logCooking(KABOB, orderNum, title, text)
+
+    if('classic' in title):
+        keys = ['t', 'm', 't', 'k', 'g', 'r', 'g', 'r']
+    elif('meaty' in title):
+        keys = ['t', 'm', 'k', 'm', 'k', 'm', 'k', 'g']
+    elif('pepper' in title):
+        keys = ['t', 'm', 'g', 'r', 'g', 'r', 'g', 'r']
+    elif('red' in title):
+        keys = ['t', 'r', 'm', 'r', 't', 'g', 't', 'r']
+    elif('kabobber' in title):
+        keys = ['t', 'm', 'k', 't', 'm', 'k', 'g', 'r']
+    elif('chicken' in title):
+        keys = ['t', 'k', 't', 'k', 'g', 'k', 'r', 'k']
+    elif('onion' in title):
+        keys = ['t', 'o', 'k', 'o', 'g', 'o', 'r', 'o']
+    elif('tower' in title):
+        keys = ['m', 'k', 'g', 'r', 'o', 'g', 'r', 'o']
+    elif('tangy' in title):
+        keys = ['t', 'o', 'g', 'r', 'o', 'g', 'r', 'o']
+    elif('juicy' in title):
+        keys = ['m', 'o', 'k', 'g', 'o', 'm', 'o', 'k']
+    elif('hawaii' in title):
+        keys = ['t', 'm', 'k', 'p', 'k', 'o', 'p', 'o']
+    elif('pine' in title):
+        keys = ['t', 'p', 'm', 'p', 'k', 'p', 'o', 'p']
+    elif('ombe' in title):
+        keys = ['m', 'p', 'm', 'p', 'k', 'g', 'r', 'o']
+    elif('sampler' in title):
+        keys = ['t', 'k', 'm', 'g', 'r', 'p', 'o', 'p']
+    elif('squash' in title):
+        keys = ['s', 'g', 's', 'r', 'p', 's', 'o', 'p']
+    elif('yellow' in title):
+        keys = ['m', 'k', 'p', 's', 'p', 's', 'p', 's']
+    elif('crazy' in title):
+        keys = ['t', 'k', 'g', 'o', 's', 'g', 'o', 's']
+    elif('platt' in title):
+        keys = ['t', 'k', 'g', 'k', 'r', 'o', 'p' , 's']
+    elif('veggie' in title):
+        keys = ['t', 'g', 'o', 'z', 'u', 'o', 'z', 'u']
+    elif('america' in title):
+        keys = ['k', 'm', 'r', 'o', 's', 'u', 's', 'u']
+    elif('green' in title):
+        keys = ['k', 'g', 'z', 'u', 'k', 'g', 'z', 'u']
+    elif('odessa' in title):
+        keys = ['m', 'z', 'm', 'z', 'm', 'z', 's', 'u']
+    elif('speci' in title):
+        keys = ['t', 'g', 'p', 'u', 't', 'g', 'p', 'u']
+    elif('omato' in title):
+        keys = ['t', 'm', 't', 'k', 't', 'u', 'z', 'u']
+
+    print(keys)
+    for key in keys:
+        press(key)
+    return 1
+
+def attemptEnchilada(orderNum, title, text):
+    if ('ror chives' in getButtonText()):
+        return enchilada(orderNum, title, text)
+    return 0
+
+def enchilada(orderNum, title, text):
+    keys = []
+    logCooking(ENCHILADA, orderNum, title, text)
+
+    count = 1
+    if ('doub' in text or 'two' in text):
+        count = 2
+    elif ('trip' in text or 'thr' in text):
+        count = 3
+    for i in range(count):
+        keys.extend([Key.down, Key.up, 't'])
+    if ('everything' in text):
+        keys.extend(['c', 'e', 'o'])
+    else:
+        if ('chive' in text):
+            keys.append('c')
+        if ('egg' in text or '99' in text):
+            keys.append('e')
+        if ('ion' in text):
+            keys.append('o')
+
+    print(keys)
+    for key in keys:
+        press(key)
+    return 2
+    
+
 RECIPE_SINGLE_DICT = {
     SOPAPILLAS: attemptSopapillas,
     CORNDOG: attemptCorndog,
@@ -710,6 +1052,14 @@ RECIPE_SINGLE_DICT = {
     PIZZA: attemptPizza,
     STEAK: attemptSteak,
     SOUP: attemptSoup,
+    COFFEE: attemptCoffee,
+    HASHBROWN: attemptHashBrown,
+    BREAKWICH: attemptBreakwich,
+    SUSHI: attemptSushi,
+    FRIED_RICE: attemptFriedRice,
+    BANANAS: attemptBananas,
+    KABOB: attemptKabob,
+    ENCHILADA: attemptEnchilada,
 }
 
 RECIPE_MULTI_DICT = {
@@ -717,4 +1067,6 @@ RECIPE_MULTI_DICT = {
     NACHOS: attemptNachos,
     PASTA: attemptPasta,
     BURGER: attemptBurger,
+    PANCAKE: attemptPancake,
+    LOBSTER: attemptLobster,
 }

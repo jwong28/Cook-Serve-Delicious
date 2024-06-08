@@ -1,7 +1,10 @@
 AVAILABLE_TICKETS = 8
-AVAILABLE_RECIPES = [ 'pasta', 'wine', 'steak', 'pizza', 'soup', 'salad']
+BREAKFAST = ['pasta']
+AVAILABLE_RECIPES = BREAKFAST
 UPGRADE_DISH = True
 UPGRADE_TRASH = True
+
+
 
 # bbox = (left_x, top_y, right_x, bot_y)
 WINDOW_BOX = bbox = (0, 0, 1920, 1040)
@@ -46,8 +49,18 @@ WINE = 'wine'
 PIZZA = 'pizza'
 STEAK = 'steak'
 SOUP = 'soup'
+COFFEE = 'coffee'
+HASHBROWN = 'hashBrown'
+BREAKWICH = 'breakwich'
+SUSHI = 'sushi'
+FRIED_RICE = 'friedRice'
+BANANAS = 'bananas'
+KABOB = 'kabob'
+ENCHILADA = 'enchilada'
 # Multi phase
 POTATO = 'potato'
 NACHOS = 'nachos'
 PASTA = 'pasta'
 BURGER = 'burger'
+PANCAKE ='pancake'
+LOBSTER = 'lobster'

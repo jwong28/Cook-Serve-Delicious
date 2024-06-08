@@ -34,7 +34,7 @@ def cook(orderNum, isPhase1):
      if (title == ''):
         #  print('empty title')
          empty = ImageGrab.grab(TICKET_TITLE_BOX)
-         empty.save('111empty.png')
+         empty.save('empty.png')
          time.sleep(0.5)
          title = getTicketTitle()
         #  print('New ticket title: ' + title)
@@ -43,7 +43,7 @@ def cook(orderNum, isPhase1):
         return 2
      if (not isPhase1):
          rec = phase2Func[orderNum]
-         result = RECIPE_MULTI_DICT[rec](orderNum + 1, title, text, isPhase1)
+         res ult = RECIPE_MULTI_DICT[rec](orderNum + 1, title, text, isPhase1)
          del phase2Func[orderNum]
          if (result > 0):
                 pressServeCook()
@@ -57,7 +57,6 @@ def cook(orderNum, isPhase1):
                 result = RECIPE_MULTI_DICT[recipe](orderNum + 1, title, text, isPhase1)
                 if (result == 1):
                     phase2Func[orderNum] = recipe
-                    # print(phase2Func)
                     # print('Order: ' + str(orderNum) + ' going to phase 2' )
             if (result > 0):
                 recipeFound = True
@@ -94,9 +93,10 @@ def removeFromCooking(order):
 if __name__ == '__main__': 
     print('hello start')
     threshold = 50
-    # print(getTicketText())
+    # print(getButtonText())    
     try: 
         while True:
+        # while False:
             for iterations in range(2):
                 for cooking_order in range(AVAILABLE_TICKETS):
                     cooking_order_num = cooking_order
