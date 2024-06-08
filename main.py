@@ -43,7 +43,7 @@ def cook(orderNum, isPhase1):
         return 2
      if (not isPhase1):
          rec = phase2Func[orderNum]
-         res ult = RECIPE_MULTI_DICT[rec](orderNum + 1, title, text, isPhase1)
+         result = RECIPE_MULTI_DICT[rec](orderNum + 1, title, text, isPhase1)
          del phase2Func[orderNum]
          if (result > 0):
                 pressServeCook()
